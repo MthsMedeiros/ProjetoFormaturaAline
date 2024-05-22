@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Presente</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Editar Presente</h1>
+    <form id="edit-form">
+        <input type="hidden" id="present-id" name="present-id">
+        <label for="title">Título:</label>
+        <input type="text" id="title" name="title" required><br>
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" required></textarea><br>
+        <label for="imageFile">Imagem:</label>
+        <input type="file" id="imageFile" name="imageFile"><br>
+        <label for="value">Valor:</label>
+        <input type="number" id="value" name="value" required><br>
+        <label for="link">Link:</label>
+        <input type="text" id="link" name="link" required><br>
+        <button type="submit" class="btn">Salvar Alterações</button>
+    </form>
+    <button onclick="window.location.href='edit.html'" class="btn btn-red">Cancelar</button>
+</div>
+<script src="scripts.js"></script>
+</body>
+</html>
