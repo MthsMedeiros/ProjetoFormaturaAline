@@ -1,21 +1,32 @@
 package com.example.formaturaaline;
 
+import jakarta.persistence.*;
+
+@Entity
 public class Present {
-    private static int idCounter = 0;
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String title;
+
+    @Column(length = 1000)
     private String description;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String imageUrl;
+
     private double value;
     private String link;
 
-    public Present() {
-        this.id = idCounter++;
+    // Getters and setters
+    public Long getId() {
+        return id;
     }
 
-    // Getters and Setters
-    public int getId() {
-        return id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

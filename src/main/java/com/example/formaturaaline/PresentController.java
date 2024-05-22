@@ -1,8 +1,8 @@
 package com.example.formaturaaline;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -11,35 +11,33 @@ import java.util.logging.Logger;
 @RequestMapping("/presents")
 public class PresentController {
     private static final Logger logger = Logger.getLogger(PresentController.class.getName());
-    private List<Present> presents = new ArrayList<>();
+
+    @Autowired
+    private PresentRepository presentRepository;
 
     @GetMapping
     public List<Present> getPresents() {
-        logger.info("Returning " + presents.size() + " presents.");
-        return presents;
+        return presentRepository.findAll();
     }
 
     @PostMapping
     public Present addPresent(@RequestBody Present present) {
-        presents.add(present);
-        logger.info("Added present: " + present.getTitle());
-        return present;
+        return presentRepository.save(present);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePresent(@PathVariable int id) {
-        presents.removeIf(present -> present.getId() == id);
-        logger.info("Deleted present with id: " + id);
+    public void deletePresent(@PathVariable Long id) {
+        presentRepository.deleteById(id);
     }
 
     @GetMapping("/{id}")
-    public Present getPresent(@PathVariable int id) {
-        return presents.stream().filter(present -> present.getId() == id).findFirst().orElse(null);
+    public Present getPresent(@PathVariable Long id) {
+        return presentRepository.findById(id).orElse(null);
     }
 
     @PutMapping("/{id}")
-    public Present updatePresent(@PathVariable int id, @RequestBody Present updatedPresent) {
-        Optional<Present> optionalPresent = presents.stream().filter(present -> present.getId() == id).findFirst();
+    public Present updatePresent(@PathVariable Long id, @RequestBody Present updatedPresent) {
+        Optional<Present> optionalPresent = presentRepository.findById(id);
         if (optionalPresent.isPresent()) {
             Present present = optionalPresent.get();
             present.setTitle(updatedPresent.getTitle());
@@ -47,8 +45,7 @@ public class PresentController {
             present.setImageUrl(updatedPresent.getImageUrl());
             present.setValue(updatedPresent.getValue());
             present.setLink(updatedPresent.getLink());
-            logger.info("Updated present: " + present.getTitle());
-            return present;
+            return presentRepository.save(present);
         } else {
             return null;
         }
